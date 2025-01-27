@@ -153,10 +153,14 @@ jobs:
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
 
       - name: Log in to registry
-        if: ${{ secrets.publish_image_registry_token }}
         run: |
-          echo "Docker Registry token provided, trying to log in"
-          echo "${{ secrets.publish_image_registry_token }}" | docker login $DOCKER_REGISTRY -u nologin --password-stdin
+          REGISTRY_TOKEN = ${{ secrets.publish_image_registry_token }}
+          if [ -n "$REGISTRY_TOKEN" ]; then
+            echo "Docker Registry token is provided, trying to log in"
+            echo "$REGISTRY_TOKEN" | docker login $DOCKER_REGISTRY -u nologin --password-stdin
+          else
+            echo "Docker Registry token is not provided, logging in is not needed"
+          fi
 
       - name: Publish image
         run: |
