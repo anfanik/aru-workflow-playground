@@ -53,7 +53,7 @@ on:
         description: "Docker registry to publish image"
         type: string
         required: false
-
+    secrets:
       publish_image_registry_token:
         description: "Docker registry token to publish image"
         type: string
@@ -154,10 +154,10 @@ jobs:
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
 
       - name: Log in to registry
-        if: ${{ publish_image_registry_token != null }}
+        if: ${{ secrets.publish_image_registry_token != null }}
         run: |
           echo "Docker Registry token provided, trying to log in"
-          echo ${{ inputs.publish_image_registry_token }} | docker login $DOCKER_REGISTRY -u nologin --password-stdin
+          echo ${{ secrets.publish_image_registry_token }} | docker login $DOCKER_REGISTRY -u nologin --password-stdin
 
       - name: Publish image
         run: |

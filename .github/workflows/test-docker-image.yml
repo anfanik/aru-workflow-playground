@@ -9,5 +9,8 @@ jobs:
     with:
       image_name: test-image
       image_version: 1.0
+
+      publish_image: true
       publish_image_registry: ghcr.io/anfanik
+    secrets:
       publish_image_registry_token: ${{ secrets.GITHUB_TOKEN }}
