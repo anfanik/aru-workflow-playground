@@ -5,6 +5,7 @@ on:
 
 jobs:
   docker-image:
+    name: Docker Image
     uses: ./.github/workflows/docker-image.yml
     with:
       image_name: test-image
