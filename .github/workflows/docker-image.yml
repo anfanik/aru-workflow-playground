@@ -81,7 +81,7 @@ jobs:
           name: ${{ inputs.download_artifact_name }}
           path: ${{ inputs.download_artifact_path }}
 
-      - name: Prepare build
+      - name: Prepare Build Image
         run: |
           IMAGE_NAME=${{ inputs.image_name }}
           echo "Image name: $IMAGE_NAME"
@@ -131,7 +131,7 @@ jobs:
       - name : Load image
         run : docker load -i image.tar
 
-      - name: Prepare publish
+      - name: Prepare Publish Image
         run: |
           ORIGINAL_IMAGE_NAME=${{ inputs.image_name }}
           echo "Original image name: $ORIGINAL_IMAGE_NAME"
@@ -149,7 +149,7 @@ jobs:
       - name: Log in to registry
         run: echo "${{ secrets.DOCKER_REGISTRY_TOKEN }}" | docker login $DOCKER_REGISTRY -u nologin --password-stdin
 
-      - name: Push image
+      - name: Publish image
         run: |
           docker tag $ORIGINAL_IMAGE_NAME $IMAGE_NAME:$IMAGE_VERSION
           docker push $IMAGE_NAME:$IMAGE_VERSION
