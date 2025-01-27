@@ -1,7 +1,7 @@
 name: Docker image
 
 on:
-  workflow_call:
+  workflow_dispatch:
     inputs:
       dockerfile_path:
         description: "Dockerfile path"
