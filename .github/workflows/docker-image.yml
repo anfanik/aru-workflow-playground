@@ -9,6 +9,7 @@ on:
         required: true
         default: "Dockerfile"
 
+
       download_artifact:
         description: "Download artifact?"
         type: boolean
@@ -39,6 +40,7 @@ on:
         description: "Image artifact name"
         type: string
         required: true
+        default: image
 
 
       publish_image:
@@ -81,11 +83,13 @@ jobs:
 
       - name: Prepare build
         run: |
-          echo "IMAGE_NAME=${{ inputs.image_name }}" >> $GITHUB_ENV
+          IMAGE_NAME=${{ inputs.image_name }}
           echo "Image name: $IMAGE_NAME"
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
           
-          echo "IMAGE_VERSION=${{ inputs.image_version }}" >> $GITHUB_ENV
+          IMAGE_VERSION=${{ inputs.image_version }}
           echo "Image version: $IMAGE_VERSION"
+          echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
 
       - name: Build image
         run: docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_VERSION --label "github_actions_run=$GITHUB_RUN_ID"
@@ -131,13 +135,16 @@ jobs:
         run: |
           ORIGINAL_IMAGE_NAME=${{ inputs.image_name }}
           echo "Original image name: $ORIGINAL_IMAGE_NAME"
+          echo "ORIGINAL_IMAGE_NAME=$ORIGINAL_IMAGE_NAME" >> $GITHUB_ENV
           
           DOCKER_REGISTRY=${{ inputs.publish_image_registry }}
           echo "Docker Registry: $DOCKER_REGISTRY"
+          echo "DOCKER_REGISTRY=$DOCKER_REGISTRY" >> $GITHUB_ENV
           
           IMAGE_NAME="$DOCKER_REGISTRY/$ORIGINAL_IMAGE_NAME"
           IMAGE_NAME=$(echo $IMAGE_NAME | tr '[A-Z]' '[a-z]')
           echo "Image name: $IMAGE_NAME"
+          echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
 
       - name: Log in to registry
         run: echo "${{ secrets.DOCKER_REGISTRY_TOKEN }}" | docker login $DOCKER_REGISTRY -u nologin --password-stdin
