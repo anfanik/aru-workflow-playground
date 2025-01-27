@@ -6,7 +6,7 @@ on:
       dockerfile_path:
         description: "Dockerfile path"
         type: string
-        required: true
+        required: false
         default: "Dockerfile"
 
 
