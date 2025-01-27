@@ -154,7 +154,7 @@ jobs:
 
       - name: Log in to registry
         run: |
-          REGISTRY_TOKEN = ${{ secrets.publish_image_registry_token }}
+          REGISTRY_TOKEN=${{ secrets.publish_image_registry_token }}
           if [ -n "$REGISTRY_TOKEN" ]; then
             echo "Docker Registry token is provided, trying to log in"
             echo "$REGISTRY_TOKEN" | docker login $DOCKER_REGISTRY -u nologin --password-stdin
