@@ -16,9 +16,15 @@ on:
         default: false
 
       download_artifact_name:
-        description: "Artifact name"
+        description: "Artifact name to download"
         type: string
         required: false
+
+      download_artifact_path:
+        description: "Downloaded artifact path"
+        type: string
+        required: false
+
 
       image_name:
         description: "Image name"
@@ -34,10 +40,6 @@ on:
         type: string
         required: true
 
-      download_artifact_path:
-        description: "Downloaded artifact path"
-        type: string
-        required: false
 
       publish_image:
         description: "Publish image?"
@@ -79,14 +81,14 @@ jobs:
 
       - name: Prepare build
         run: |
-          IMAGE_NAME=${{ inputs.image_name }}
+          echo "IMAGE_NAME=${{ inputs.image_name }}" >> $GITHUB_ENV
           echo "Image name: $IMAGE_NAME"
           
-          IMAGE_VERSION=${{ inputs.image_version }}
+          echo "IMAGE_VERSION=${{ inputs.image_version }}" >> $GITHUB_ENV
           echo "Image version: $IMAGE_VERSION"
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_VERSION --label "github_actions_run=${GITHUB_RUN_ID}"
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_VERSION --label "github_actions_run=$GITHUB_RUN_ID"
 
       - name: Save image
         run: docker save $IMAGE_NAME > image.tar
