@@ -10,12 +10,25 @@ jobs:
 
     permissions:
       contents: write
-      packages: write
 
     with:
       jdk_version: 21
       jdk_distribution: zulu
       publish_to_maven: true
+
+  gradle-publish:
+    name: Gradle Publish
+    uses: anfanik/aru-workflow/.github/workflows/gradle-publish.yml@main
+
+    needs: gradle
+
+    permissions:
+      contents: read
+      packages: write
+
+    with:
+      jdk_version: 21
+      jdk_distribution: zulu
 
   docker:
     name: Docker
