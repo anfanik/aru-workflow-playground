@@ -6,11 +6,10 @@ on:
 jobs:
   docker-image:
     name: Docker
-    uses: ./.github/workflows/docker-image.yml
+    uses: anfanik/aru-workflow/jobs/docker.yml
 
     permissions:
       contents: write
-      packages: write
 
     with:
       image_name: test-image
