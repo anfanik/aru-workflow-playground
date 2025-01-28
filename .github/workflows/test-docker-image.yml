@@ -14,7 +14,6 @@ jobs:
     with:
       jdk_version: 21
       jdk_distribution: zulu
-      publish_to_maven: true
 
   gradle-publish:
     name: Gradle Publish
