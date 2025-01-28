@@ -15,10 +15,13 @@ jobs:
     with:
       jdk_version: 21
       jdk_distribution: zulu
+      publish_to_maven: true
 
   docker:
     name: Docker
     uses: anfanik/aru-workflow/.github/workflows/docker.yml@main
+
+    needs: gradle
 
     permissions:
       contents: write
