@@ -88,20 +88,24 @@ jobs:
       - name: Prepare Build Image
         run: |
           IMAGE_NAME=${{ inputs.image_name }}
-          echo "Image name: $IMAGE_NAME"
+          echo "Image Name: $IMAGE_NAME"
           echo "IMAGE_NAME=$IMAGE_NAME" >> $GITHUB_ENV
           
           IMAGE_VERSION=${{ inputs.image_version }}
-          echo "Image version: $IMAGE_VERSION"
+          echo "Image Version: $IMAGE_VERSION"
           echo "IMAGE_VERSION=$IMAGE_VERSION" >> $GITHUB_ENV
+          
+          IMAGE_TAG=$IMAGE_NAME:$IMAGE_VERSION
+          echo "Image Tag: $IMAGE_VERSION"
+          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
           
           echo "GitHub run ID: $GITHUB_RUN_ID"
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME:$IMAGE_VERSION --label "github_actions_run=$GITHUB_RUN_ID"
+        run: docker build . --file Dockerfile --tag $IMAGE_TAG --label "github_actions_run=$GITHUB_RUN_ID"
 
       - name: Save image
-        run: docker save $IMAGE_NAME > image.tar
+        run: docker save $IMAGE_TAG > image.tar
 
       - uses: actions/upload-artifact@v4
         name: Upload build artifacts
