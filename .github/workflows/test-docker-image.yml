@@ -18,5 +18,6 @@ jobs:
 
       publish_image: true
       publish_image_registry: ghcr.io/anfanik
+      publish_image_github_packages: true
     secrets:
       publish_image_registry_token: ${{ secrets.GITHUB_TOKEN }}

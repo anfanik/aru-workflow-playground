@@ -9,23 +9,19 @@ on:
         required: false
         default: "Dockerfile"
 
-
       download_artifact:
-        description: "Download artifact?"
+        description: "Is Download artifact?"
         type: boolean
         required: false
         default: false
-
       download_artifact_name:
         description: "Artifact name to download"
         type: string
         required: false
-
       download_artifact_path:
         description: "Downloaded artifact path"
         type: string
         required: false
-
 
       image_name:
         description: "Image name"
@@ -35,23 +31,24 @@ on:
         description: "Image version"
         type: string
         required: true
-
       image_artifact_name:
         description: "Image artifact name"
         type: string
         required: false
         default: image
 
-
       publish_image:
-        description: "Publish image?"
+        description: "Is Publish image?"
         type: boolean
         required: false
         default: false
-
       publish_image_registry:
         description: "Docker registry to publish image"
         type: string
+        required: false
+      publish_image_github_packages:
+        description: "Is Docker registry to publish image Github Packages?"
+        type: boolean
         required: false
     secrets:
       publish_image_registry_token:
@@ -122,6 +119,7 @@ jobs:
 
     permissions:
       contents: read
+      packages: ${{ inputs.publish_image_github_packages && 'write' || 'none' }}
 
     steps:
       - name: Validate Publish Image inputs
