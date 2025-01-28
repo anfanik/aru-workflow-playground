@@ -6,7 +6,7 @@ on:
 jobs:
   docker-image:
     name: Docker
-    uses: anfanik/aru-workflow/jobs/docker.yml
+    uses: anfanik/aru-workflow/jobs/docker.yml@main
 
     permissions:
       contents: write
